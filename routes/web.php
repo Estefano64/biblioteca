@@ -21,9 +21,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [BookController::class, 'showBooks'])->name('dashboard');
     Route::resource('books', BookController::class)->except(['show']);
  });
- Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+
 
  Route::get('/home', [BookController::class, 'showBooks'])->name('home');
 
 
- Route::get('/search', \App\Http\Livewire\BookSearch::class);
