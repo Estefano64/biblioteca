@@ -16,7 +16,6 @@
 <body class="font-sans antialiased">
     <!-- Page Heading -->
     @include('components.header')
-    
     <div class="min-h-screen bg-gray-100">
         <!-- Page Content -->
         <main>

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Livewire\BookSearch;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -24,4 +26,4 @@ Route::middleware('auth')->group(function () {
  Route::get('/home', [BookController::class, 'showBooks'])->name('home');
 
 
- 
+ Route::get('/search', \App\Http\Livewire\BookSearch::class);
