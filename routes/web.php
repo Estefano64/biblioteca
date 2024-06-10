@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\BookController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -15,3 +15,10 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [BookController::class, 'getDashboardBooks'])->name('dashboard');
+    Route::resource('books', BookController::class);
+ });
+
+
+ 

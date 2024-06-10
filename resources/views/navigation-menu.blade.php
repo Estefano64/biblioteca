@@ -15,9 +15,10 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :active="request()->routeIs('libro')">
-                        Libros
+                    <x-nav-link href="{{ route('books.index') }}" :active="request()->routeIs('books.index')">
+                        {{ __('Libros') }}
                     </x-nav-link>
+
                 </div>
             </div>
 
@@ -145,7 +146,7 @@
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link href="" :active="request()->routeIs('libros')">
+            <x-responsive-nav-link href="{{ route('books.index') }}" :active="request()->routeIs('books.index')">
                 Libros
             </x-responsive-nav-link>
         </div>
