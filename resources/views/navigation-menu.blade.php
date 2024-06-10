@@ -18,6 +18,9 @@
                     <x-nav-link href="{{ route('books.index') }}" :active="request()->routeIs('books.index')">
                         {{ __('Libros') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('loans.index') }}" :active="request()->routeIs('loans.index')">
+                        {{ __('Prestamos') }}
+                    </x-nav-link>
 
                 </div>
             </div>
@@ -148,6 +151,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('books.index') }}" :active="request()->routeIs('books.index')">
                 Libros
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('loans.index') }}" :active="request()->routeIs('loans.index')">
+                Prestamos
             </x-responsive-nav-link>
         </div>
 

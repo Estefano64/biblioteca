@@ -11,8 +11,13 @@ class Book extends Model
 
     protected $fillable = ['title', 'year', 'author', 'publisher'];
 
+    public function isLoaned()
+    {
+        return $this->loans()->where('returned', false)->exists();
+    }
+
     public function loans()
     {
-        return $this->hasMany(Loan::class);
+        return $this->hasMany(Loans::class);
     }
 }
