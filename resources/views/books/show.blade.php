@@ -13,7 +13,7 @@
             @guest <!-- Verifica si el usuario no está autenticado -->
                 <a href="{{ route('login') }}" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-red-600">Pedir Prestado</a>
             @else <!-- El usuario está autenticado -->
-                <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-red-600">Pedir Prestado Login</a>
+                <a href="{{ route('loans.create') }}" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-red-600">Pedir Prestado</a>
             @endguest
         </div>
     </div>

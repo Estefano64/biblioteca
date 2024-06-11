@@ -7,6 +7,8 @@ use App\Models\Loans;
 use App\Models\Book;
 use App\Models\User;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Carbon;
+
 
 class LoansController extends Controller
 {
@@ -18,7 +20,9 @@ class LoansController extends Controller
 
     public function create()
     {
-        return view('loans.create');
+        $isAdmin = auth()->user()->usertype === 'admin';
+        $start_date = Carbon::now()->format('Y-m-d');
+        return view('loans.create', compact('isAdmin','start_date'));
     }
 
     public function store(Request $request)
@@ -28,8 +32,15 @@ class LoansController extends Controller
             'user_id' => 'required|integer',
             'start_date' => 'required|date',
             'due_date' => 'required|date',
-            'returned' => 'required|boolean',
         ]);
+    
+        $isAdmin = auth()->user()->usertype === 'admin';
+    
+        if ($isAdmin) {
+            $request->validate([
+                'returned' => 'required|boolean',
+            ]);
+        }
     
         $book = Book::find($request->book_id);
         if (!$book) {
