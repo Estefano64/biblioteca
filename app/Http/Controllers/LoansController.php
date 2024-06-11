@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 
-
 class LoansController extends Controller
 {
     public function index()
@@ -28,40 +27,48 @@ class LoansController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'book_id' => 'required|integer',
-            'user_id' => 'required|integer',
+            'book_title' => 'required|string',
+            'user_dni' => 'required|string',
             'start_date' => 'required|date',
             'due_date' => 'required|date',
         ]);
-    
+
         $isAdmin = auth()->user()->usertype === 'admin';
-    
+
         if ($isAdmin) {
             $request->validate([
                 'returned' => 'required|boolean',
             ]);
         }
-    
-        $book = Book::find($request->book_id);
+
+        $book = Book::where('title', $request->book_title)->first();
         if (!$book) {
             return redirect()->back()->with('error', 'El libro no existe')->withInput();
         }
-    
+
         if ($book->isLoaned()) {
             return redirect()->back()->with('error', 'El libro ya está prestado')->withInput();
         }
-    
-        if (!User::find($request->user_id)) {
+
+        $user = User::where('dni', $request->user_dni)->first();
+        if (!$user) {
             return redirect()->back()->with('error', 'El usuario no existe')->withInput();
         }
-    
+
         try {
-            Loans::create($request->all());
+            Loans::create([
+                'book_id' => $book->id,
+                'user_id' => $user->id,
+                'start_date' => $request->start_date,
+                'due_date' => $request->due_date,
+                'returned' => $request->returned ?? false,
+            ]);
             return redirect()->route('loans.index')->with('success', 'Préstamo creado exitosamente.');
         } catch (QueryException $e) {
             return redirect()->back()->with('error', 'Error al crear el préstamo')->withInput();
         }
     }
+
     public function show(Loans $loan)
     {
         return view('loans.show', compact('loan'));
@@ -73,35 +80,43 @@ class LoansController extends Controller
     }
 
     public function update(Request $request, Loans $loan)
-{
-    $request->validate([
-        'book_id' => 'required|integer',
-        'user_id' => 'required|integer',
-        'start_date' => 'required|date',
-        'due_date' => 'required|date',
-        'returned' => 'required|boolean',
-    ]);
+    {
+        $request->validate([
+            'book_title' => 'required|string',
+            'user_dni' => 'required|string',
+            'start_date' => 'required|date',
+            'due_date' => 'required|date',
+            'returned' => 'required|boolean',
+        ]);
 
-    $book = Book::find($request->book_id);
-    if (!$book) {
-        return redirect()->back()->with('error', 'El libro no existe')->withInput();
+        $book = Book::where('title', $request->book_title)->first();
+        if (!$book) {
+            return redirect()->back()->with('error', 'El libro no existe')->withInput();
+        }
+
+        if ($book->isLoaned() && $loan->book_id != $book->id) {
+            return redirect()->back()->with('error', 'El libro ya está prestado')->withInput();
+        }
+
+        $user = User::where('dni', $request->user_dni)->first();
+        if (!$user) {
+            return redirect()->back()->with('error', 'El usuario no existe')->withInput();
+        }
+
+        try {
+            $loan->update([
+                'book_id' => $book->id,
+                'user_id' => $user->id,
+                'start_date' => $request->start_date,
+                'due_date' => $request->due_date,
+                'returned' => $request->returned,
+            ]);
+            return redirect()->route('loans.index')->with('success', 'Préstamo actualizado exitosamente.');
+        } catch (QueryException $e) {
+            return redirect()->back()->with('error', 'Error al actualizar el préstamo')->withInput();
+        }
     }
 
-    if ($book->isLoaned() && $loan->book_id != $request->book_id) {
-        return redirect()->back()->with('error', 'El libro ya está prestado')->withInput();
-    }
-
-    if (!User::find($request->user_id)) {
-        return redirect()->back()->with('error', 'El usuario no existe')->withInput();
-    }
-
-    try {
-        $loan->update($request->all());
-        return redirect()->route('loans.index')->with('success', 'Préstamo actualizado exitosamente.');
-    } catch (QueryException $e) {
-        return redirect()->back()->with('error', 'Error al actualizar el préstamo')->withInput();
-    }
-}
     public function destroy(Loans $loan)
     {
         $loan->delete();

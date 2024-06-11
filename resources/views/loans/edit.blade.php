@@ -13,12 +13,12 @@
             @csrf
             @method('PUT')
             <div class="mb-3">
-                <label for="book_id" class="block text-sm font-medium text-gray-700">ID del Libro</label>
-                <input type="number" name="book_id" value="{{ $loan->book_id }}" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                <label for="book_title" class="block text-sm font-medium text-gray-700">Título del Libro</label>
+                <input type="text" name="book_title" value="{{ $loan->book->title }}" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
             </div>
             <div class="mb-3">
-                <label for="user_id" class="block text-sm font-medium text-gray-700">ID del Usuario</label>
-                <input type="number" name="user_id" value="{{ $loan->user_id }}" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                <label for="user_dni" class="block text-sm font-medium text-gray-700">DNI del Usuario</label>
+                <input type="text" name="user_dni" value="{{ $loan->user->dni }}" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
             </div>
             <div class="mb-3">
                 <label for="start_date" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
@@ -40,5 +40,6 @@
     </div>
 </div>
 @endsection
+
 
 

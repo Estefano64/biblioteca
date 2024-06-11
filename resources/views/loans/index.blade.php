@@ -15,7 +15,7 @@
             @foreach($loans as $loan)
                 <li class="flex justify-between items-center bg-gray-100 px-4 py-2 rounded-lg">
                     <span>
-                        <a href="{{ route('loans.edit', $loan) }}" class="text-blue-500 hover:underline">{{ $loan->id }}</a>
+                        <a href="{{ route('loans.edit', $loan) }}" class="text-blue-500 hover:underline">Préstamo del libro "{{ $loan->book->title }}" hasta {{ $loan->due_date }}</a>
                     </span>
                     <div class="flex space-x-2">
                         <form action="{{ route('loans.destroy', $loan) }}" method="POST" style="display:inline;">
