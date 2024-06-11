@@ -27,8 +27,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'dni',
-        'address',
+        'dni',//asignación masiva del campo DNI
+        'address',//asignación masiva del campo address
     ];
 
     /**
@@ -66,6 +66,7 @@ class User extends Authenticatable
     }
     public function loans()
     {
+    // Define una relación uno a muchos con el modelo Loans
         return $this->hasMany(Loan::class);
     }
 }

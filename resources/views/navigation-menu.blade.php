@@ -13,24 +13,34 @@
                 <!-- Navigation Links -->
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @auth
-                        @if(auth()->user()->usertype === 'user')
-                            <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                                {{ __('Dashboard') }}
-                            </x-nav-link>
-                        @endif
-                        @if(auth()->user()->usertype === 'admin')
-                        <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                                {{ __('Dashboard') }}
-                            </x-nav-link>
-                            <x-nav-link href="{{ route('books.index') }}" :active="request()->routeIs('books.index')">
-                                {{ __('Libros') }}
-                            </x-nav-link>
-                            <x-nav-link href="{{ route('loans.index') }}" :active="request()->routeIs('loans.index')">
-                                {{ __('Préstamos') }}
-                            </x-nav-link>
-                        @endif
-                    @endauth
+                        @auth
+                            <!-- Verificación si el tipo de usuario es 'user' -->
+                            @if(auth()->user()->usertype === 'user')
+                                <!-- Enlace de navegación al Dashboard para usuarios -->
+                                <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                                    {{ __('Dashboard') }}
+                                </x-nav-link>
+                            @endif
+                            
+                            <!-- Verificación si el tipo de usuario es 'admin' -->
+                            @if(auth()->user()->usertype === 'admin')
+                                <!-- Enlace de navegación al Dashboard para administradores -->
+                                <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                                    {{ __('Dashboard') }}
+                                </x-nav-link>
+                                
+                                <!-- Enlace de navegación a la página de Libros para administradores -->
+                                <x-nav-link href="{{ route('books.index') }}" :active="request()->routeIs('books.index')">
+                                    {{ __('Libros') }}
+                                </x-nav-link>
+                                
+                                <!-- Enlace de navegación a la página de Préstamos para administradores -->
+                                <x-nav-link href="{{ route('loans.index') }}" :active="request()->routeIs('loans.index')">
+                                    {{ __('Préstamos') }}
+                                </x-nav-link>
+                            @endif
+                        @endauth
+
                 </div>
 
             </div>

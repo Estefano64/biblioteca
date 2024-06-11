@@ -4,11 +4,13 @@
 <div class="container mx-auto p-4">
     <div class="bg-white shadow rounded-lg p-6">
         <h1 class="text-2xl font-bold mb-4">Editar Préstamo</h1>
+        <!-- Mostrar mensaje de error si existe -->
         @if(session('error'))
             <div class="bg-red-500 text-white p-4 rounded mb-4">
                 {{ session('error') }}
             </div>
         @endif
+        <!-- Formulario para editar el préstamo -->
         <form action="{{ route('loans.update', $loan) }}" method="POST" class="space-y-4">
             @csrf
             @method('PUT')
